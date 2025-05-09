@@ -1,0 +1,40 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Attendance Tracker"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "attendance_tracker"
+
+[[workflows.workflow]]
+name = "Attendance Tracker"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install tkcalendar && python attendance_tracker.py"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "attendance_tracker"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python attendance_tracker.py"
+
+[deployment]
+run = ["sh", "-c", "pip install tkcalendar && python attendance_tracker.py"]
