@@ -1,0 +1,32 @@
+/* Custom styling for Attendance Tracker */
+
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+}
+
+.card-header {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.btn {
+    border-radius: 4px;
+}
+
+footer {
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+}
