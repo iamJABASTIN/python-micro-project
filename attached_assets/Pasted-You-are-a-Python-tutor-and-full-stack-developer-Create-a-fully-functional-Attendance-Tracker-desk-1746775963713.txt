@@ -1,0 +1,42 @@
+You are a Python tutor and full-stack developer. Create a fully functional “Attendance Tracker” desktop application in Python using Tkinter and SQLite. The app should include:
+
+1. **Root window**  
+   - Customized title, size, and icon  
+   - At least two different fonts and colors for headings and labels  
+
+2. **Containers and layout**  
+   - Use `Frame` and `Canvas` widgets to organize the UI into header, input form, list display, and footer sections  
+   - Demonstrate placement via `.pack()`, `.grid()`, or `.place()`  
+
+3. **Widgets**  
+   - **Labels** for field names and application title  
+   - **Entry** (text box) for Student ID and Name  
+   - **Combobox** or `Listbox` for selecting class or section  
+   - **Date picker** (you can simulate with three Comboboxes for day, month, year)  
+   - **Buttons** for “Add”, “Update”, “Delete”, “Clear”, and “Exit”  
+   - **Menu bar** with “File” (Exit), “Help” (About)  
+
+4. **Table display**  
+   - Use a `Treeview` or a multi-column `Listbox` to display all attendance records in tabular form  
+
+5. **Database connectivity (SQLite)**  
+   - Create or open a local SQLite database file  
+   - Define a table `attendance(id INTEGER PRIMARY KEY AUTOINCREMENT, student_id TEXT, name TEXT, class TEXT, date TEXT)`  
+   - Implement **CRUD operations**:
+     - **Create**: Insert new attendance records  
+     - **Read**: Load and display all records on startup and after each operation  
+     - **Update**: Modify selected record  
+     - **Delete**: Remove selected record  
+     - **Clear**: Reset input fields  
+
+6. **Code quality**  
+   - Organize code into functions or a class  
+   - Add docstrings and comments explaining each major block  
+   - Handle exceptions for database operations and invalid input  
+   - Pack all dependencies in a `requirements.txt`  
+
+7. **Extras (optional)**  
+   - A search bar to filter records by student name or date  
+   - Status bar or popup dialogs for success/error messages  
+
+Please output a single Python script (`attendance_tracker.py`) plus a `requirements.txt`, with clear inline comments, so I can run it immediately on Replit.
