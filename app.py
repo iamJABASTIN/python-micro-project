@@ -67,12 +67,9 @@ class Attendance(db.Model):
             'date': self.date
         }
 
-# Initialize database and create admin user
+# Initialize database
 with app.app_context():
     db.create_all()
-    
-    # We'll create the admin user in a separate route to avoid issues
-    # on initial database creation
 
 # Login required decorator
 def login_required(f):
@@ -97,6 +94,30 @@ def admin_required(f):
             return redirect(url_for('dashboard'))
         return f(*args, **kwargs)
     return decorated_function
+
+@app.route('/init-admin')
+def init_admin():
+    """
+    Initialize admin user (only for setup)
+    """
+    try:
+        # Check if admin user already exists
+        admin_user = User.query.filter_by(username='admin').first()
+        if admin_user:
+            return jsonify({"message": "Admin user already exists"})
+        
+        # Create admin user
+        admin_user = User()
+        admin_user.username = 'admin'
+        admin_user.role = 'admin'
+        admin_user.set_password('admin123')
+        db.session.add(admin_user)
+        db.session.commit()
+        
+        return jsonify({"message": "Admin user created successfully"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
