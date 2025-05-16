@@ -61,13 +61,16 @@ class Attendance(db.Model):
             'date': self.date
         }
 
-# Create the database tables
+# Create the database tables at startup
 with app.app_context():
     db.create_all()
+    
     # Create default admin user if not exists
     admin_user = User.query.filter_by(username='admin').first()
     if not admin_user:
-        admin_user = User(username='admin', role='admin')
+        admin_user = User()
+        admin_user.username = 'admin'
+        admin_user.role = 'admin'
         admin_user.set_password('admin123')
         db.session.add(admin_user)
         db.session.commit()
