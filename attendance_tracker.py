@@ -155,7 +155,7 @@ class AttendanceTracker:
         )
         class_label.grid(row=2, column=0, sticky=tk.W, pady=5)
         
-        class_values = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"]
+        class_values = ["I-MCA-A", "II-MCA-A", "I-MCA-B", "II-MCA-B"]
         class_combo = ttk.Combobox(
             form_frame, 
             textvariable=self.class_var, 

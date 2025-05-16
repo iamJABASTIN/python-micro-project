@@ -2,6 +2,10 @@
 Attendance Tracker Web Application
 A web application for tracking student attendance using Flask and SQLite database.
 Enhanced with authentication and report generation.
+
+source venv/Scripts/activate
+python app.py
+
 """
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, session, Response
@@ -190,7 +194,7 @@ def dashboard():
     Main dashboard page after login
     """
     records = Attendance.query.order_by(Attendance.id.desc()).all()
-    classes = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"]
+    classes = ["I-MCA-A", "II-MCA-A", "I-MCA-B", "II-MCA-B"]
     return render_template('dashboard.html', records=records, classes=classes)
 
 @app.route('/add', methods=['POST'])
@@ -325,7 +329,7 @@ def reports():
     """
     Report generation page
     """
-    classes = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"]
+    classes = ["I-MCA-A", "II-MCA-A", "I-MCA-B", "II-MCA-B"]
     return render_template('reports.html', classes=classes)
 
 @app.route('/generate-report', methods=['POST'])
