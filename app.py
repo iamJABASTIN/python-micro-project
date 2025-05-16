@@ -14,7 +14,14 @@ import io
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///attendance.db'
+
+# Check if DATABASE_URL environment variable exists
+database_url = os.environ.get('DATABASE_URL')
+if database_url and database_url.startswith("postgres://"):
+    # Replace postgres:// with postgresql:// for SQLAlchemy 1.4+
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'  # For flash messages and session
 db = SQLAlchemy(app)
@@ -47,7 +54,6 @@ class Attendance(db.Model):
     name = db.Column(db.String(100), nullable=False)
     class_name = db.Column(db.String(50), nullable=False)
     date = db.Column(db.String(20), nullable=False)
-    created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
     def __repr__(self):
         return f"<Attendance {self.id}: {self.name}>"
@@ -61,19 +67,12 @@ class Attendance(db.Model):
             'date': self.date
         }
 
-# Create the database tables at startup
+# Initialize database and create admin user
 with app.app_context():
     db.create_all()
     
-    # Create default admin user if not exists
-    admin_user = User.query.filter_by(username='admin').first()
-    if not admin_user:
-        admin_user = User()
-        admin_user.username = 'admin'
-        admin_user.role = 'admin'
-        admin_user.set_password('admin123')
-        db.session.add(admin_user)
-        db.session.commit()
+    # We'll create the admin user in a separate route to avoid issues
+    # on initial database creation
 
 # Login required decorator
 def login_required(f):
@@ -196,13 +195,11 @@ def add_record():
             return redirect(url_for('dashboard'))
         
         # Create a new attendance record
-        new_record = Attendance(
-            student_id=student_id,
-            name=name,
-            class_name=class_name,
-            date=date,
-            created_by=session.get('user_id')
-        )
+        new_record = Attendance()
+        new_record.student_id = student_id
+        new_record.name = name
+        new_record.class_name = class_name
+        new_record.date = date
         
         # Add to database
         db.session.add(new_record)
